@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Crestwood University</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --dark-blue: #012a4a;     
+    --nav-blue:  #013366;     
+    --gold:      #f5c142;     
+    --muted:     #cfe8ff;
+  }
+
+  
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: linear-gradient(180deg,var(--dark-blue), #001a33 1200px);
+    color:#eef6ff;
+    -webkit-font-smoothing:antialiased;
+  }
+  a { color:var(--gold); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+
+  
+  header{
+    background: linear-gradient(90deg,var(--nav-blue), #002b45);
+    border-bottom: 4px solid rgba(245,193,66,0.08);
+    position:sticky;
+    top:0;
+    z-index:40;
+  }
+  .container{ width:min(1100px,94%); margin:0 auto; }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    padding:12px 0;
+  }
+  .brand{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .crest{
+    width:52px; height:52px;
+    background:var(--gold);
+    color:var(--nav-blue);
+    font-weight:700;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    font-size:20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .title{
+    line-height:1;
+  }
+  .title h1{ margin:0; font-size:18px; color:var(--gold); letter-spacing:0.6px; }
+  .title p{ margin:0; font-size:12px; color:var(--muted); opacity:0.9; }
+
+  
+  nav ul{
+    margin:0; padding:0;
+    display:flex; gap:18px; align-items:center;
+    list-style:none;
+  }
+  nav a.navlink{
+    color:var(--muted);
+    padding:8px 10px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:14px;
+  }
+  nav a.navlink:hover, nav a.navlink.active{
+    background: rgba(255,255,255,0.04);
+    color:var(--gold);
+  }
+
+  
+  .menu-toggle{ display:none; border:0; background:transparent; color:var(--muted); font-size:20px; }
+  @media (max-width:820px){
+    nav ul{ display:none; flex-direction:column; gap:6px; background: linear-gradient(180deg, rgba(1,30,50,0.95), rgba(0,20,40,0.95)); padding:12px; border-radius:8px; margin-top:8px; }
+    nav ul.open{ display:flex; }
+    .menu-toggle{ display:inline-block; }
+  }
+
+  
+  .hero{
+    margin-top:12px;
+    width:100%;
+    min-height:360px;
+    display:grid;
+    align-items:center;
+    color: #fff;
+    position:relative;
+    overflow:hidden;
+    border-radius:8px;
+  }
+  .hero .bg{
+    position:absolute; inset:0;
+    background-image: url('C:/Users/gelof/Downloads/WEBTECH/heroimg.jpg');
+    background-size:cover; background-position:center;
+    filter:brightness(0.45) saturate(0.9);
+    z-index:0;
+  }
+
+
+.carousel {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:0;
+}
+
+.slide {
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity 1.2s ease-in-out;
+  filter:brightness(0.45) saturate(0.9);
+}
+
+.slide.active {
+  opacity:1;
+}
+
+  .hero .overlay{
+    position:relative; z-index:2;
+    padding:40px 20px;
+    display:flex;
+    gap:24px;
+    align-items:center;
+    justify-content:space-between;
+    color:#fff;
+  }
+  .hero .left{ max-width:62%; }
+  .hero h2{ margin:0 0 8px 0; font-size:34px; color:var(--gold); }
+  .hero p{ margin:0; color: #e8f6ff; opacity:0.95; }
+
+  .cta { margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{
+    background:var(--gold);
+    color:var(--nav-blue);
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
+    border:0;
+  }
+  .btn.secondary{
+    background:transparent;
+    color:#e7f5ff;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+
+  .hero .right{
+    width:320px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
+    border-radius:10px;
+    padding:18px;
+    text-align:left;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  .quick li{ list-style:none; padding:8px 0; color:#e7f9ff; opacity:0.95; }
+  .quick li i{ color:var(--gold); margin-right:8px; }
+
+  
+  main{ padding:28px 0; }
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 320px;
+    gap:20px;
+    align-items:start;
+  }
+  @media (max-width:980px){
+    .hero .left{ max-width:100%; }
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  }
+
+  h3{ color:var(--gold); margin:0 0 10px 0; }
+
+  
+  .ann-list{ display:flex; flex-direction:column; gap:10px; }
+  .ann{
+    background: rgba(255,255,255,0.02);
+    padding:12px; border-radius:8px;
+  }
+
+  
+  .cards-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .small-card{ background:rgba(255,255,255,0.02); padding:12px; border-radius:8px; flex:1; min-width:140px; text-align:left; }
+
+  
+  .mapwrap iframe{ width:100%; height:260px; border:0; border-radius:8px; }
+
+  
+  label{ display:block; font-size:13px; margin:8px 0 6px; color:#dfeeff; }
+  input[type=text], input[type=email], textarea, select{
+    width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:#eaf6ff;
+  }
+  input[type=submit]{ margin-top:10px; padding:10px 14px; border-radius:8px; border:0; background:var(--gold); color:var(--nav-blue); font-weight:700; cursor:pointer; }
+
+  footer{ margin-top:40px; padding:24px 0; color:#cfe8ff; opacity:0.8; text-align:center; border-top:1px solid rgba(255,255,255,0.03); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container topbar">
+    <div class="brand">
+      <div class="crest">CU</div>
+      <div class="title">
+        <h1>Crestwood University</h1>
+        <p>Excellence in teaching & research</p>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button class="menu-toggle" id="toggleBtn" aria-expanded="false" title="Menu">☰</button>
+      <nav>
+        <ul id="navList">
+          <li><a class="navlink" href="#home">Home</a></li>
+          <li><a class="navlink" href="#about">About Us</a></li>
+          <li><a class="navlink" href="#admission">Admission</a></li>
+          <li><a class="navlink" href="#services">Services</a></li>
+          <li><a class="navlink" href="#locations">Locations</a></li>
+          <li><a class="navlink" href="#announcements">Announcements</a></li>
+          <li><a class="navlink" href="#sports">Sports</a></li>
+          <li><a class="navlink" href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+
+<section id="home" class="hero container" aria-label="Hero banner">
+  <div class="carousel">
+    <div class="slide active" style="background-image: url('C:/Users/gelof/Downloads/WEBTECH/heroimg.jpg');"></div>
+    <div class="slide" style="background-image: url('C:/Users/gelof/Downloads/WEBTECH/crsl1.jpg');"></div>
+    <div class="slide" style="background-image: url('C:/Users/gelof/Downloads/WEBTECH/crsl2.jpg');"></div>
+
+    
+    <button class="arrow left" aria-label="Previous slide">&#10094;</button>
+    <button class="arrow right" aria-label="Next slide">&#10095;</button>
+  </div>
+
+  <div class="overlay">
+    <div class="left">
+      <h2>Welcome to Crestwood University</h2>
+      <p>Preparing students for the world with strong academics, practical skills and a vibrant campus life. Explore programs, admissions and campus services below.</p>
+
+      <div class="cta">
+        <a class="btn" href="#admission">Apply Now</a>
+        <a class="btn secondary" href="#about">Learn More</a>
+      </div>
+    </div>
+
+    <aside class="right" aria-labelledby="quickLinksTitle">
+      <h4 id="quickLinksTitle" style="color:var(--gold); margin:0 0 8px 0;">Quick Links</h4>
+      <ul class="quick" style="padding-left:10px; margin:0;">
+        <li><i>🎓</i> Undergraduate Admissions</li>
+        <li><i>📅</i> Upcoming Open Day</li>
+        <li><i>📞</i> Contact Admissions: +91 90000 00000</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+
+<main class="container">
+  <div class="grid">
+
+    
+    <div>
+
+      
+      <section id="about" class="card" aria-labelledby="aboutTitle">
+        <h3 id="aboutTitle">About Crestwood</h3>
+        <p>Crestwood University is a modern, student-focused institution that balances research and inclusive teaching. We offer undergraduate and postgraduate programs across science, arts, engineering and business with industry-linked internships and campus support services.</p>
+        <div class="cards-row" style="margin-top:12px;">
+          <div class="small-card"><strong>Founded</strong><div>1998</div></div>
+          <div class="small-card"><strong>Students</strong><div>~8,500</div></div>
+          <div class="small-card"><strong>Campus</strong><div>Urban, 50 acres</div></div>
+        </div>
+      </section>
+
+      
+      <section id="admission" class="card">
+        <h3>Admissions</h3>
+        <p>Admissions are open for the academic year. We accept applications online. Entry requirements vary by program — typically a mix of academic record and an interview/portfolio for some courses.</p>
+        <ol>
+          <li>Choose program & check eligibility</li>
+          <li>Fill application form</li>
+          <li>Submit documents & pay fee</li>
+        </ol>
+        <a class="btn" href="#contact">Contact Admissions</a>
+      </section>
+
+      
+      <section id="services" class="card">
+        <h3>Services</h3>
+        <p>On campus we provide: Library, Career Services, Health Centre, Student Counselling, IT labs and Wi-Fi, Student Clubs and Sports facilities.</p>
+        <div style="margin-top:10px;">
+          <strong>Career outcomes:</strong> Industry internships and placement support.
+        </div>
+      </section>
+
+      
+      <section id="announcements" class="card">
+        <h3>Announcements</h3>
+        <div class="ann-list">
+          <div class="ann"><strong>Convocation</strong> — Convocation scheduled on 15th Dec. Tickets available from campus office.</div>
+          <div class="ann"><strong>Scholarships</strong> — Merit scholarships now open for 2025 intake.</div>
+          <div class="ann"><strong>Winter break</strong> — Campus closed from 24th Dec to 2nd Jan.</div>
+        </div>
+      </section>
+
+      
+      <section id="sports" class="card">
+        <h3>Sports & Clubs</h3>
+        <p>Crestwood offers football, cricket, athletics, basketball and indoor games. Join a club to build skills and meet peers.</p>
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+          <div class="small-card"><strong>Football</strong><div>Training & matches</div></div>
+          <div class="small-card"><strong>Basketball</strong><div>Inter-college team</div></div>
+          <div class="small-card"><strong>Yoga</strong><div>Wellness sessions</div></div>
+        </div>
+      </section>
+
+      
+      <section class="card">
+        <h3>Campus (Gallery)</h3>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <img src="C:\Users\gelof\Downloads\WEBTECH\campus gallery.jpg" alt="campus1" style="width:calc(50% - 8px); border-radius:8px;">
+          <img src="C:\Users\gelof\Downloads\WEBTECH\Rice Stadium _ Houston, TX.jpg" alt="campus2" style="width:calc(50% - 8px); border-radius:8px;">
+        </div>
+      </section>
+
+    </div>
+
+    
+    <aside>
+
+      
+      <div class="card">
+        <h3>Upcoming Events</h3>
+        <ul style="padding-left:16px;">
+          <li>Open Day — 10 Nov</li>
+          <li>Guest Lecture — 20 Nov</li>
+          <li>Alumni Meet — 5 Dec</li>
+        </ul>
+      </div>
+
+      
+<div id="location" class="card mapwrap">
+<h3>Location</h3>
+<p>Find Us</p>
+
+<iframe
+src="https://www.google.com/maps?q=Crestwood+University&output=embed"
+loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+title="Crestwood University map"></iframe>
+<p style="font-size:13px; margin-top:8px; color:#cfe8ff; opacity:0.8;">Address: 123 Crestwood Ave, City</p>
+</div>
+
+ 
+<div id="contact" class="card">
+<h3>Contact Us</h3>
+<form onsubmit="event.preventDefault(); alert('Thanks! We received your message (demo).');">
+ <label for="name">Name</label>
+ <input id="name" type="text" placeholder="Your name" required>
+
+<label for="email">Email</label>
+ <input id="email" type="email" placeholder="you@example.com" required>
+
+<label for="msg">Message</label>
+ <textarea id="msg" rows="4" placeholder="Your question or comment"></textarea>
+
+ <input type="submit" value="Send Message">
+</form>
+</div>
+
+</aside>
+
+</div>
+</main>
+
+<footer>
+  © <span id="year"></span> Crestwood University — All rights reserved · <a href="#contact">Contact</a>
+</footer>
+
+
+<script>
+
+//carousel
+const slides = document.querySelectorAll('.carousel .slide');
+const next = document.querySelector('.arrow.right');
+const prev = document.querySelector('.arrow.left');
+let index = 0;
+
+function showSlide(i){
+  slides.forEach(s => s.classList.remove('active'));
+  slides[i].classList.add('active');
+}
+
+next.addEventListener('click', () => {
+  index = (index + 1) % slides.length;
+  showSlide(index);
+});
+
+prev.addEventListener('click', () => {
+  index = (index - 1 + slides.length) % slides.length;
+  showSlide(index);
+});
+
+
+setInterval(() => {
+  index = (index + 1) % slides.length;
+  showSlide(index);
+}, 3000);
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const btn = document.getElementById('toggleBtn');
+  const navList = document.getElementById('navList');
+  btn.addEventListener('click', () => {
+    navList.classList.toggle('open');
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+  });
+
+  
+  document.querySelectorAll('a.navlink').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const href = a.getAttribute('href');
+      if(href && href.startsWith('#')){
+        e.preventDefault();
+        const id = href.slice(1);
+        const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        
+        document.querySelectorAll('a.navlink').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+        if(window.innerWidth <= 820) navList.classList.remove('open'); // close mobile menu
+      }
+    });
+  });
+// AJAX Contact us
+function sendContactForm() {
+  
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var message = document.getElementById("msg").value;
+  var xhr = new XMLHttpRequest();
+
+  
+  xhr.open("POST", "dummy-url", true);
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  
+  xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4) {
+    if (xhr.status === 200) {
+      alert(" Thank you, " + name + "! Your message has been sent successfully.");
+      document.querySelector("#contact form").reset();
+    } else {
+      alert(" Something went wrong. Please try again later.");
+    }
+  }
+};
+
+  var data = JSON.stringify({
+    user_name: name,
+    user_email: email,
+    user_message: message
+  });
+  xhr.send(data);
+}
+
+document
+  .querySelector("#contact form")
+  .addEventListener("submit", function (event) {
+    event.preventDefault(); 
+    sendContactForm();
+  });
+</script>
+
+</body>
+</html>
+
